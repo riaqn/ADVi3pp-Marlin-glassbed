@@ -2305,7 +2305,7 @@ void Printer_::sensor_grid_show()
     WriteRamDataRequest frame{Variable::Value0};
     for(auto y = 0; y < GRID_MAX_POINTS_Y; y++)
         for(auto x = 0; x < GRID_MAX_POINTS_X; x++)
-            frame << Uint16(static_cast<int16_t>(z_values[x][y] * 1000));
+            frame << Uint16(0);
     frame.send();
 
     pages_.show_page(Page::SensorGrid, false);
