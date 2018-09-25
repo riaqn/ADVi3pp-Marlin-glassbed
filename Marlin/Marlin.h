@@ -362,6 +362,10 @@ void report_current_position();
   float bilinear_z_offset(const float raw[XYZ]);
 #endif
 
+#if ENABLED(AUTO_BED_LEVELING_LINEAR)
+  extern float z_values[GRID_MAX_POINTS_X][GRID_MAX_POINTS_Y];
+#endif
+
 #if ENABLED(AUTO_BED_LEVELING_UBL)
   typedef struct { double A, B, D; } linear_fit;
   linear_fit* lsf_linear_fit(double x[], double y[], double z[], const int);

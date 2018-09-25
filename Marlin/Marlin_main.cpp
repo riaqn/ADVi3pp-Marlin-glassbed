@@ -630,6 +630,10 @@ uint8_t target_extruder;
         z_values[GRID_MAX_POINTS_X][GRID_MAX_POINTS_Y];
 #endif
 
+#if ENABLED(AUTO_BED_LEVELING_LINEAR)
+  float z_values[GRID_MAX_POINTS_X][GRID_MAX_POINTS_Y];
+#endif
+
 #if IS_SCARA
   // Float constants for SCARA calculations
   const float L1 = SCARA_LINKAGE_1, L2 = SCARA_LINKAGE_2,
@@ -4863,10 +4867,11 @@ void home_all_axes() { gcode_G28(true); }
           eqnAMatrix[abl_probe_index + 1 * abl2] = yProbe;
           eqnAMatrix[abl_probe_index + 2 * abl2] = 1;
 
+          z_values[xCount][yCount] = measured_z
+
           incremental_LSF(&lsf_results, xProbe, yProbe, measured_z);
 
         #elif ENABLED(AUTO_BED_LEVELING_BILINEAR)
-
           z_values[xCount][yCount] = measured_z + zoffset;
 
           #if ENABLED(DEBUG_LEVELING_FEATURE)
@@ -5041,7 +5046,6 @@ void home_all_axes() { gcode_G28(true); }
             }
 
             #if ENABLED(AUTO_BED_LEVELING_LINEAR)
-
               mean += measured_z;
               eqnBVector[abl_probe_index] = measured_z;
               eqnAMatrix[abl_probe_index + 0 * abl2] = xProbe;
@@ -5049,6 +5053,8 @@ void home_all_axes() { gcode_G28(true); }
               eqnAMatrix[abl_probe_index + 2 * abl2] = 1;
 
               incremental_LSF(&lsf_results, xProbe, yProbe, measured_z);
+
+              z_values[xCount][yCount] = measured_z;
 
             #elif ENABLED(AUTO_BED_LEVELING_BILINEAR)
 
